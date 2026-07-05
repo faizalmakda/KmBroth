@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KM Health — Small-batch Halal Bone Broth · Manchester</title>
+<meta name="description" content="Small-batch, halal bone broth, slow-simmered for 24 hours and poured fresh each week in Manchester, UK." />
+<style>
+  /* ============================================================
+     KM HEALTH — landing shell
+     ============================================================ */
+  :root {
+    --ivory:  #F6F1E7;
+    --paper:  #FCFAF4;
+    --ink:    #211D17;
+    --taupe:  #6E6455;
+    --line:   #E0D8C8;
+    --line-2: #D3C9B6;
+    --gold:   #A96F16;
+    --gold-bright: #D8A43C;
+    --sage:   #6F7355;
+    --shadow: 24px 40px 80px -48px rgba(33,29,23,.45);
+
+    --serif: "Hoefler Text", "Iowan Old Style", "Palatino Linotype", Palatino, "URW Palladio L", Georgia, "Times New Roman", serif;
+    --sans:  ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    --maxw: 1180px;
+    --pad: clamp(1.25rem, 4vw, 3.5rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ivory:  #17130E;
+      --paper:  #201B14;
+      --ink:    #F0E9DA;
+      --taupe:  #B4A992;
+      --line:   #342C22;
+      --line-2: #3F362A;
+      --gold:   #E0AE4E;
+      --gold-bright: #F0C978;
+      --sage:   #A9AC85;
+      --shadow: 24px 40px 90px -50px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="light"] {
+    --ivory:#F6F1E7; --paper:#FCFAF4; --ink:#211D17; --taupe:#6E6455;
+    --line:#E0D8C8; --line-2:#D3C9B6; --gold:#A96F16; --gold-bright:#D8A43C;
+    --sage:#6F7355; --shadow:24px 40px 80px -48px rgba(33,29,23,.45);
+  }
+  :root[data-theme="dark"] {
+    --ivory:#17130E; --paper:#201B14; --ink:#F0E9DA; --taupe:#B4A992;
+    --line:#342C22; --line-2:#3F362A; --gold:#E0AE4E; --gold-bright:#F0C978;
+    --sage:#A9AC85; --shadow:24px 40px 90px -50px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body.kmh {
+    margin: 0;
+    background: var(--ivory);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .kmh img { max-width: 100%; display: block; }
+  .kmh a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--pad); }
+
+  .eyebrow {
+    font-family: var(--sans);
+    text-transform: uppercase;
+    letter-spacing: .28em;
+    font-size: .70rem;
+    font-weight: 600;
+    color: var(--gold);
+  }
+  h1,h2,h3 { font-family: var(--serif); font-weight: 500; text-wrap: balance; margin: 0; }
+  p { margin: 0; }
+
+  /* ---------- top bar ---------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--ivory) 86%, transparent);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar__in {
+    display: flex; align-items: center; gap: 1.5rem;
+    padding-block: .85rem;
+  }
+  .brand { display: flex; align-items: baseline; gap: .5rem; line-height: 1; }
+  .brand__km { font-family: var(--serif); font-size: 1.35rem; letter-spacing: .06em; color: var(--ink); }
+  .brand__h  { font-family: var(--serif); font-size: .72rem; letter-spacing: .42em; text-transform: uppercase; color: var(--taupe); transform: translateY(-1px); }
+  .nav { display: flex; gap: 1.75rem; margin-left: auto; }
+  .nav a { font-size: .82rem; letter-spacing: .04em; color: var(--taupe); transition: color .2s; }
+  .nav a:hover { color: var(--ink); }
+  @media (max-width: 860px) { .nav { display: none; } }
+
+  .status-pill {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+    padding: .4rem .75rem; border-radius: 999px;
+    border: 1px solid var(--line-2);
+    color: var(--sage); font-weight: 600;
+    white-space: nowrap;
+  }
+  .status-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sage); box-shadow: 0 0 0 3px color-mix(in srgb, var(--sage) 22%, transparent); }
+  .status-pill.is-closed { color: #b0402e; border-color: color-mix(in srgb,#b0402e 40%,var(--line-2)); }
+  .status-pill.is-closed .dot { background: #b0402e; box-shadow: 0 0 0 3px color-mix(in srgb,#b0402e 22%,transparent); }
+  @media (prefers-color-scheme: dark){ .status-pill.is-closed { color:#e78c74; } }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+    font-family: var(--sans); font-size: .82rem; font-weight: 600; letter-spacing: .04em;
+    padding: .7rem 1.3rem; border-radius: 2px; cursor: pointer;
+    border: 1px solid var(--ink); background: var(--ink); color: var(--ivory);
+    transition: transform .18s ease, background .2s, color .2s, opacity .2s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn--ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
+  .btn--ghost:hover { border-color: var(--ink); }
+  .btn--gold { background: var(--gold); border-color: var(--gold); color: #fff; }
+  @media (prefers-color-scheme: dark){ .btn--gold { color:#241a08; } }
+  .btn--sm { padding: .5rem .9rem; font-size: .76rem; }
+  .btn[disabled] { opacity: .45; cursor: not-allowed; transform: none; }
+
+  /* ---------- hero ---------- */
+  .hero { padding-top: clamp(2.5rem, 6vw, 5rem); padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+  .hero__grid {
+    display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(2rem,5vw,4rem);
+    align-items: center;
+  }
+  @media (max-width: 900px){ .hero__grid { grid-template-columns: 1fr; } }
+  .hero h1 {
+    font-size: clamp(2.6rem, 6vw, 4.5rem);
+    line-height: 1.02; letter-spacing: -.01em; margin-top: 1.1rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero__lede { max-width: 46ch; margin-top: 1.4rem; color: var(--taupe); font-size: 1.06rem; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+  .hero__meta { margin-top: 1.6rem; font-size: .8rem; color: var(--taupe); display: flex; align-items:center; gap:.6rem; }
+  .hero__meta b { color: var(--sage); font-weight: 600; }
+
+  /* the disc: looking down into a fresh jar */
+  .jar { position: relative; aspect-ratio: 1; width: min(100%, 460px); margin-inline: auto; }
+  .jar__disc {
+    position: absolute; inset: 0; border-radius: 50%;
+    background:
+      radial-gradient(circle at 42% 34%, #F5D98C 0%, #E7B44E 22%, #D19A2F 46%, #B67B1E 68%, #9A6416 88%);
+    box-shadow:
+      inset 0 6px 26px rgba(255,255,255,.35),
+      inset 0 -30px 60px rgba(103,63,10,.55),
+      var(--shadow);
+  }
+  .jar__rim {
+    position: absolute; inset: -14px; border-radius: 50%;
+    border: 2px solid color-mix(in srgb, var(--gold) 45%, transparent);
+    opacity: .5;
+  }
+  .jar__rim2 { position:absolute; inset:-30px; border-radius:50%; border:1px solid var(--line-2); opacity:.7; }
+  .jar__gloss {
+    position: absolute; width: 46%; height: 30%; left: 20%; top: 16%;
+    background: radial-gradient(circle at 40% 40%, rgba(255,255,255,.75), rgba(255,255,255,0) 70%);
+    border-radius: 50%; filter: blur(2px);
+  }
+  .bubble { position: absolute; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, rgba(255,248,225,.9), rgba(214,160,60,.15) 70%);
+    box-shadow: inset 0 0 4px rgba(120,80,20,.4); }
+  .b1 { width:34px;height:34px; left:58%; top:52%; }
+  .b2 { width:20px;height:20px; left:40%; top:64%; }
+  .b3 { width:13px;height:13px; left:66%; top:38%; }
+  .b4 { width:26px;height:26px; left:30%; top:44%; }
+  .b5 { width:9px;height:9px;  left:52%; top:30%; }
+  .jar__label {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    text-align: center; color: #4d3410; mix-blend-mode: multiply;
+  }
+  .jar__label .km { font-family: var(--serif); font-size: 1.6rem; letter-spacing:.08em; }
+  .jar__label .h  { font-family: var(--serif); font-size:.62rem; letter-spacing:.4em; text-transform:uppercase; }
+  .jar__label .rule { width: 46px; height:1px; background: currentColor; margin: 5px auto 0; opacity:.6; }
+
+  /* ---------- marquee / trust strip ---------- */
+  .strip { border-block: 1px solid var(--line); background: var(--paper); }
+  .strip__in { display: flex; flex-wrap: wrap; gap: .5rem 2.4rem; justify-content: center; padding-block: 1rem; }
+  .strip__item { font-size: .74rem; letter-spacing: .22em; text-transform: uppercase; color: var(--taupe); font-weight: 600; }
+  .strip__item::before { content: "◦"; color: var(--gold); margin-right: .8rem; }
+
+  /* ---------- sections ---------- */
+  section { scroll-margin-top: 84px; }
+  .sec { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
+  .sec__head { max-width: 62ch; }
+  .sec__head h2 { font-size: clamp(1.9rem, 4vw, 3rem); line-height: 1.06; margin-top: .8rem; }
+  .sec__head p { margin-top: 1.1rem; color: var(--taupe); font-size: 1.05rem; }
+
+  /* benefits — editorial rows */
+  .benefits { margin-top: clamp(2rem,5vw,3.5rem); border-top: 1px solid var(--line); }
+  .benefit {
+    display: grid; grid-template-columns: 3.5rem 1fr; gap: 1.5rem;
+    padding-block: 1.7rem; border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .benefit__no { font-family: var(--serif); font-size: 1.1rem; color: var(--gold); padding-top: .2rem; }
+  .benefit__body h3 { font-size: 1.3rem; }
+  .benefit__body p { margin-top: .4rem; color: var(--taupe); max-width: 60ch; }
+  @media (min-width: 760px){
+    .benefits { display: grid; grid-template-columns: 1fr 1fr; column-gap: 3rem; }
+    .benefit { margin: 0; }
+  }
+
+  /* how it works — the weekly ritual */
+  .ritual { background: var(--paper); border-block: 1px solid var(--line); }
+  .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: clamp(2rem,4vw,3rem); background: var(--line); border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
+  @media (max-width: 720px){ .timeline { grid-template-columns: 1fr 1fr; } }
+  .phase { background: var(--paper); padding: 1.6rem 1.4rem; min-height: 190px; display: flex; flex-direction: column; }
+  .phase__day { font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+  .phase h3 { font-size: 1.25rem; margin-top: .7rem; }
+  .phase p { margin-top: .5rem; font-size: .9rem; color: var(--taupe); }
+  .phase__ico { font-family: var(--serif); font-size: 1.4rem; color: var(--sage); margin-top: auto; }
+  .ritual__note {
+    margin-top: 1.6rem; display: flex; gap: .8rem; align-items: flex-start;
+    font-size: .92rem; color: var(--taupe); padding: 1rem 1.2rem;
+    border: 1px dashed var(--line-2); border-radius: 3px; background: var(--ivory);
+  }
+  .ritual__note b { color: var(--ink); font-weight: 600; }
+
+  /* shop preview */
+  .products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: clamp(2rem,4vw,3rem); }
+  @media (max-width: 820px){ .products { grid-template-columns: 1fr; max-width: 460px; margin-inline: auto; } }
+  .card {
+    border: 1px solid var(--line); border-radius: 4px; background: var(--paper);
+    overflow: hidden; display: flex; flex-direction: column; transition: transform .2s, box-shadow .3s;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+  .card__img { aspect-ratio: 4/3; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 40%, #EFC367 0%, #D49B34 45%, #A8701D 100%); }
+  .card__img.is-sage { background: radial-gradient(circle at 50% 40%, #C7C58E 0%, #9BA06B 48%, #6E7449 100%); }
+  .card__jar { position:absolute; left:50%; top:54%; transform:translate(-50%,-50%);
+    width:44%; aspect-ratio:.72; border-radius: 10px 10px 14px 14px;
+    background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.05) 18%, rgba(120,78,20,.18));
+    border: 1px solid rgba(255,255,255,.35); box-shadow: inset 0 8px 20px rgba(255,255,255,.25); }
+  .card__jar::before { content:""; position:absolute; left:26%; right:26%; top:-9px; height:9px; border-radius:3px 3px 0 0; background: rgba(255,255,255,.5); }
+  .card__soldout { position:absolute; inset:0; background: color-mix(in srgb, var(--ink) 62%, transparent);
+    display:flex; align-items:center; justify-content:center; }
+  .card__soldout span { color:#fff; font-family:var(--serif); font-style:italic; font-size:1.35rem; letter-spacing:.02em; }
+  .card__body { padding: 1.25rem 1.3rem 1.4rem; display:flex; flex-direction:column; gap:.5rem; flex:1; }
+  .card__body h3 { font-size: 1.2rem; }
+  .card__desc { font-size: .86rem; color: var(--taupe); }
+  .card__row { display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:.6rem; }
+  .card__price { font-family: var(--serif); font-size: 1.15rem; }
+  .card__price small { font-size:.7rem; color:var(--taupe); letter-spacing:.06em; }
+  .tag { font-size:.64rem; letter-spacing:.16em; text-transform:uppercase; font-weight:700; padding:.28rem .5rem; border-radius:2px; }
+  .tag--sage { color: var(--sage); border:1px solid color-mix(in srgb,var(--sage) 40%,transparent); }
+  .tag--out { color:#b0402e; border:1px solid color-mix(in srgb,#b0402e 40%,transparent); }
+  @media (prefers-color-scheme: dark){ .tag--out{ color:#e78c74; } }
+
+  /* ordering / payment story — dark band */
+  .story { background: var(--ink); color: var(--ivory); }
+  :root[data-theme="dark"] .story, :root[data-theme="light"] .story { }
+  .story .eyebrow { color: var(--gold-bright); }
+  .story h2 { color: var(--ivory); font-size: clamp(1.9rem,4vw,3rem); line-height:1.06; margin-top:.8rem; }
+  .story__grid { display:grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,5vw,4rem); align-items:center; }
+  @media (max-width: 860px){ .story__grid { grid-template-columns:1fr; } }
+  .story__lede { margin-top:1.1rem; color: color-mix(in srgb, var(--ivory) 74%, transparent); max-width:52ch; }
+  .steps { list-style:none; margin: 1.8rem 0 0; padding:0; display:flex; flex-direction:column; gap:0; }
+  .step { display:grid; grid-template-columns: 2.4rem 1fr; gap:1rem; padding:1.1rem 0; border-top:1px solid color-mix(in srgb,var(--ivory) 16%, transparent); }
+  .step:last-child { border-bottom:1px solid color-mix(in srgb,var(--ivory) 16%, transparent); }
+  .step__n { font-family:var(--serif); color:var(--gold-bright); font-size:1.2rem; }
+  .step h3 { color:var(--ivory); font-size:1.08rem; }
+  .step p { font-size:.9rem; margin-top:.25rem; color: color-mix(in srgb,var(--ivory) 68%, transparent); }
+  .receipt {
+    background: color-mix(in srgb, var(--ivory) 96%, transparent); color: var(--ink);
+    border-radius: 6px; padding: 1.6rem; box-shadow: var(--shadow);
+    font-family: var(--sans);
+  }
+  .receipt__top { display:flex; justify-content:space-between; align-items:center; padding-bottom:1rem; border-bottom:1px dashed var(--line-2); }
+  .receipt__top .brand__km{font-size:1.1rem;} .receipt__top .brand__h{font-size:.6rem;}
+  .receipt__row { display:flex; justify-content:space-between; font-size:.9rem; padding:.5rem 0; color:var(--taupe); }
+  .receipt__row b { color:var(--ink); font-weight:600; }
+  .receipt__ref { margin-top:1rem; padding:1rem; border:1px solid var(--line-2); border-radius:4px; text-align:center; background:var(--paper); }
+  .receipt__ref span { font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--taupe); }
+  .receipt__ref b { display:block; font-family:var(--serif); font-size:1.7rem; letter-spacing:.14em; color:var(--gold); margin-top:.25rem; }
+  .receipt__hint { font-size:.76rem; color:var(--taupe); margin-top:.9rem; text-align:center; }
+
+  /* about mini */
+  .about__grid { display:grid; grid-template-columns: .9fr 1.1fr; gap: clamp(2rem,5vw,4rem); align-items:center; }
+  @media (max-width:820px){ .about__grid{ grid-template-columns:1fr; } }
+  .about__mark { aspect-ratio:1; width:min(100%,360px); border-radius:50%; background:var(--paper); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; box-shadow: var(--shadow); margin-inline:auto; }
+  .about__mark .brand__km{ font-size:3rem; } .about__mark .brand__h{ font-size:1rem; letter-spacing:.5em; }
+  .about__mark .inner { text-align:center; }
+  .about__mark .rule { width:72px; height:1px; background:var(--line-2); margin:.6rem auto 0; }
+  .about__grid p { color:var(--taupe); margin-top:1rem; }
+
+  /* newsletter / CTA */
+  .signup { background: var(--paper); border-top:1px solid var(--line); }
+  .signup__in { text-align:center; max-width:52ch; margin-inline:auto; }
+  .signup h2 { font-size: clamp(1.7rem,3.5vw,2.5rem); }
+  .signup p { color:var(--taupe); margin-top:.8rem; }
+  .signup__form { display:flex; gap:.6rem; margin-top:1.6rem; justify-content:center; flex-wrap:wrap; }
+  .signup__form input { font-family:var(--sans); font-size:.95rem; padding:.75rem 1rem; border:1px solid var(--line-2); border-radius:2px; background:var(--ivory); color:var(--ink); min-width:min(320px,80vw); }
+  .signup__form input:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+
+  /* footer */
+  .foot { border-top:1px solid var(--line); background:var(--ivory); }
+  .foot__in { display:grid; grid-template-columns: 1.4fr 1fr 1fr; gap:2rem; padding-block: clamp(2.5rem,5vw,3.5rem); }
+  @media (max-width:720px){ .foot__in { grid-template-columns:1fr 1fr; } }
+  .foot h4 { font-family:var(--sans); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--taupe); margin:0 0 1rem; font-weight:700; }
+  .foot ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.55rem; }
+  .foot a { font-size:.9rem; color:var(--taupe); } .foot a:hover{ color:var(--ink); }
+  .foot__brand p { font-size:.9rem; color:var(--taupe); max-width:34ch; margin-top:1rem; }
+  .foot__bottom { border-top:1px solid var(--line); padding-block:1.4rem; display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; font-size:.78rem; color:var(--taupe); }
+  .foot__bottom a { color:var(--taupe); }
+  .foot__bottom a:hover { color:var(--ink); }
+
+  /* reveal */
+  .reveal { opacity:0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce){ .reveal { opacity:1; transform:none; transition:none; } }
+</style>
+
+<body class="kmh">
+  <!-- ============ TOP BAR ============ -->
+  <header class="topbar">
+    <div class="wrap topbar__in">
+      <a class="brand" href="#top" aria-label="KM Health home">
+        <span class="brand__km">KM</span><span class="brand__h">Health</span>
+      </a>
+      <nav class="nav">
+        <a href="#benefits">Benefits</a>
+        <a href="#ritual">How it works</a>
+        <a href="#shop">The Broth</a>
+        <a href="#order">Ordering</a>
+      </nav>
+      <div class="status-pill" title="Ordering status for this week">
+        <span class="dot"></span> This week · Open
+      </div>
+      <a class="btn btn--sm" href="#shop">Order</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <section class="hero wrap">
+      <div class="hero__grid">
+        <div class="reveal">
+          <span class="eyebrow">Halal bone broth · Manchester</span>
+          <h1>Slow-simmered broth,<br>made the <em>old way</em>.</h1>
+          <p class="hero__lede">
+            Small-batch, halal bone broth, gently simmered for 24 hours until it
+            sets to a rich golden gel. Nothing added — just bones, water, time
+            and a little patience. Poured fresh into jars every week.
+          </p>
+          <div class="hero__cta">
+            <a class="btn btn--gold" href="#shop">Order this week's batch</a>
+            <a class="btn btn--ghost" href="#benefits">Why bone broth</a>
+          </div>
+          <p class="hero__meta">
+            <span class="dot" style="width:7px;height:7px;border-radius:50%;background:var(--sage);display:inline-block"></span>
+            <span><b>Batch open</b> — orders close Friday · brewed Saturday · shipped Monday</span>
+          </p>
+        </div>
+        <div class="reveal">
+          <div class="jar" role="img" aria-label="A fresh jar of golden KM Health bone broth, viewed from above">
+            <div class="jar__rim2"></div>
+            <div class="jar__rim"></div>
+            <div class="jar__disc"></div>
+            <div class="jar__gloss"></div>
+            <span class="bubble b1"></span><span class="bubble b2"></span>
+            <span class="bubble b3"></span><span class="bubble b4"></span>
+            <span class="bubble b5"></span>
+            <div class="jar__label">
+              <div class="km">KM</div><div class="h">Health</div><div class="rule"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TRUST STRIP ============ -->
+    <div class="strip">
+      <div class="wrap strip__in">
+        <span class="strip__item">100% Halal</span>
+        <span class="strip__item">Small-batch</span>
+        <span class="strip__item">Simmered 24 hrs</span>
+        <span class="strip__item">No additives</span>
+        <span class="strip__item">Made in Manchester</span>
+      </div>
+    </div>
+
+    <!-- ============ BENEFITS ============ -->
+    <section class="sec wrap" id="benefits">
+      <div class="sec__head reveal">
+        <span class="eyebrow">Why bone broth</span>
+        <h2>A quiet daily ritual your body notices.</h2>
+        <p>
+          For generations, broth was medicine you could sip. As bones simmer,
+          they release collagen, gelatine, amino acids and minerals into the
+          water — the good stuff that's hard to get anywhere else. Here's what
+          people reach for it for.
+        </p>
+      </div>
+
+      <div class="benefits reveal">
+        <div class="benefit">
+          <div class="benefit__no">01</div>
+          <div class="benefit__body">
+            <h3>Gut health &amp; digestion</h3>
+            <p>Gelatine and glutamine help soothe and support the gut lining — the reason broth has long been the first thing offered to someone unwell.</p>
+          </div>
+        </div>
+        <div class="benefit">
+          <div class="benefit__no">02</div>
+          <div class="benefit__body">
+            <h3>Collagen for skin &amp; hair</h3>
+            <p>A natural, whole-food source of collagen and the building blocks your body uses for firmer skin, stronger nails and healthy hair.</p>
+          </div>
+        </div>
+        <div class="benefit">
+          <div class="benefit__no">03</div>
+          <div class="benefit__body">
+            <h3>Joints &amp; mobility</h3>
+            <p>Glucosamine, chondroitin and collagen — the same compounds found in joint supplements, delivered the way nature intended.</p>
+          </div>
+        </div>
+        <div class="benefit">
+          <div class="benefit__no">04</div>
+          <div class="benefit__body">
+            <h3>Immune support</h3>
+            <p>Rich in minerals and amino acids to help you feel your best, especially through the colder Manchester months.</p>
+          </div>
+        </div>
+        <div class="benefit">
+          <div class="benefit__no">05</div>
+          <div class="benefit__body">
+            <h3>Naturally protein-rich</h3>
+            <p>A warming, savoury way to add protein to your day — as a morning sip, a cooking base, or a nourishing broth on its own.</p>
+          </div>
+        </div>
+        <div class="benefit">
+          <div class="benefit__no">06</div>
+          <div class="benefit__body">
+            <h3>Clean &amp; simple</h3>
+            <p>Just bones, water and time. No stock cubes, no powders, no preservatives — nothing you wouldn't make in your own kitchen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS / WEEKLY RITUAL ============ -->
+    <section class="ritual" id="ritual">
+      <div class="sec wrap">
+        <div class="sec__head reveal">
+          <span class="eyebrow">The weekly rhythm</span>
+          <h2>Fresh, never sitting on a shelf.</h2>
+          <p>
+            Because every batch is made fresh to order, KM Health runs on a simple
+            weekly cycle. Order early in the week, and your broth is brewed,
+            poured and posted while it's at its freshest.
+          </p>
+        </div>
+
+        <div class="timeline reveal">
+          <div class="phase">
+            <span class="phase__day">Mon – Fri</span>
+            <h3>Order window</h3>
+            <p>Ordering is open all week. Place your order any time before Friday evening to join this week's batch.</p>
+            <span class="phase__ico">✎</span>
+          </div>
+          <div class="phase">
+            <span class="phase__day">Saturday</span>
+            <h3>Brew day</h3>
+            <p>Orders close and we get to work — bones simmering low and slow for a full 24 hours, then poured fresh into jars.</p>
+            <span class="phase__ico">♨</span>
+          </div>
+          <div class="phase">
+            <span class="phase__day">Monday</span>
+            <h3>Shipped</h3>
+            <p>Every jar is packed cold and sent on its way first thing Monday morning, tracked to your door.</p>
+            <span class="phase__ico">✦</span>
+          </div>
+          <div class="phase">
+            <span class="phase__day">Tuesday</span>
+            <h3>At your door</h3>
+            <p>Your broth arrives the following day — ready to warm, sip and keep in the fridge or freezer.</p>
+            <span class="phase__ico">✿</span>
+          </div>
+        </div>
+
+        <div class="ritual__note reveal">
+          <span aria-hidden="true">✻</span>
+          <p><b>Some weeks we rest.</b> As a small kitchen making everything by hand, there are weeks we can't brew. When that happens the shop simply shows <b>Sold out this week</b>, and orders reopen the moment the next batch is on. Join the list below and we'll let you know when it's live.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SHOP PREVIEW ============ -->
+    <section class="sec wrap" id="shop">
+      <div class="sec__head reveal">
+        <span class="eyebrow">The Broth</span>
+        <h2>This week's batch.</h2>
+        <p>Every jar is poured by hand from the same pot. Choose your size — sip daily, or stock the freezer.</p>
+      </div>
+
+      <div class="products reveal">
+        <article class="card">
+          <div class="card__img"><div class="card__jar"></div></div>
+          <div class="card__body">
+            <div style="display:flex;gap:.5rem;align-items:center">
+              <span class="tag tag--sage">Signature</span>
+            </div>
+            <h3>Original Halal Bone Broth</h3>
+            <p class="card__desc">Our 24-hour golden broth. Sets to a gel when chilled — the sign of real collagen. 500ml jar.</p>
+            <div class="card__row">
+              <span class="card__price">£9 <small>/ jar</small></span>
+              <button class="btn btn--sm">Add to order</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__img"><div class="card__jar"></div></div>
+          <div class="card__body">
+            <div style="display:flex;gap:.5rem;align-items:center">
+              <span class="tag tag--sage">Best value</span>
+            </div>
+            <h3>Weekly Bundle · 4 Jars</h3>
+            <p class="card__desc">A jar for most days of the week. The easiest way to make broth a habit. 4 × 500ml.</p>
+            <div class="card__row">
+              <span class="card__price">£32 <small>/ 4 jars</small></span>
+              <button class="btn btn--sm">Add to order</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card__img is-sage">
+            <div class="card__jar"></div>
+            <div class="card__soldout"><span>Sold out this week</span></div>
+          </div>
+          <div class="card__body">
+            <div style="display:flex;gap:.5rem;align-items:center">
+              <span class="tag tag--out">Back next batch</span>
+            </div>
+            <h3>Herb &amp; Ginger Broth</h3>
+            <p class="card__desc">Original broth infused with ginger, turmeric and gentle herbs. A limited weekly special.</p>
+            <div class="card__row">
+              <span class="card__price">£10 <small>/ jar</small></span>
+              <button class="btn btn--sm" disabled>Sold out</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ ORDERING / PAYMENT ============ -->
+    <section class="story" id="order">
+      <div class="sec wrap">
+        <div class="story__grid">
+          <div class="reveal">
+            <span class="eyebrow">Ordering &amp; payment</span>
+            <h2>Simple ordering. Pay by bank transfer.</h2>
+            <p class="story__lede">
+              No card fees, no middlemen — your payment goes straight to us so we
+              can keep the broth honest and the price fair. Here's how it works.
+            </p>
+            <ol class="steps">
+              <li class="step"><span class="step__n">1</span><div><h3>Build your order</h3><p>Choose your jars and check out — takes a minute, no account needed.</p></div></li>
+              <li class="step"><span class="step__n">2</span><div><h3>Get your unique reference</h3><p>We show you our bank details and a one-off order code. Pop the code in your transfer reference.</p></div></li>
+              <li class="step"><span class="step__n">3</span><div><h3>We match &amp; confirm</h3><p>The moment your transfer lands, your order is confirmed and you get an email — no waiting around.</p></div></li>
+              <li class="step"><span class="step__n">4</span><div><h3>Brewed &amp; shipped</h3><p>Your jars are made Saturday and posted Monday, arriving fresh the next day.</p></div></li>
+            </ol>
+          </div>
+
+          <div class="reveal">
+            <div class="receipt" role="img" aria-label="Example order confirmation with a unique payment reference">
+              <div class="receipt__top">
+                <span class="brand"><span class="brand__km">KM</span><span class="brand__h">Health</span></span>
+                <span style="font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);font-weight:700">Awaiting transfer</span>
+              </div>
+              <div class="receipt__row"><span>Weekly Bundle · 4 Jars</span><b>£32.00</b></div>
+              <div class="receipt__row"><span>Original Bone Broth × 1</span><b>£9.00</b></div>
+              <div class="receipt__row" style="border-top:1px dashed var(--line-2);margin-top:.3rem;padding-top:.7rem"><span>Total to transfer</span><b style="font-size:1.05rem">£41.00</b></div>
+              <div class="receipt__ref">
+                <span>Use this reference</span>
+                <b>KM&#8209;4821</b>
+              </div>
+              <p class="receipt__hint">Transfer to KM Health · Sort 00-00-00 · Acc 0000 0000<br>We'll confirm as soon as it arrives.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="sec wrap" id="about">
+      <div class="about__grid">
+        <div class="reveal">
+          <div class="about__mark">
+            <div class="inner">
+              <div class="brand__km" style="color:var(--taupe)">KM</div>
+              <div class="brand__h" style="color:var(--taupe)">Health</div>
+              <div class="rule"></div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <span class="eyebrow">Our story</span>
+          <h2 style="font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1.08;margin-top:.7rem">Made in a home kitchen, the way broth should be.</h2>
+          <p>KM Health began the way the best food does — in a family kitchen, with a big pot and a belief that real nourishment can't be rushed. Every batch is still made by hand, in small numbers, so we can pour the same care into every jar.</p>
+          <p>Halal, honest and slow-made. That's the whole recipe.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SIGN UP ============ -->
+    <section class="signup">
+      <div class="sec wrap signup__in reveal">
+        <span class="eyebrow">Never miss a batch</span>
+        <h2>Know the moment orders open.</h2>
+        <p>We'll send a short note each week when the batch goes live — and first dibs when a special returns.</p>
+        <form class="signup__form" onsubmit="return false">
+          <input type="email" placeholder="you@email.com" aria-label="Email address" />
+          <button class="btn btn--gold" type="submit">Keep me posted</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="foot">
+    <div class="wrap foot__in">
+      <div class="foot__brand">
+        <span class="brand"><span class="brand__km">KM</span><span class="brand__h">Health</span></span>
+        <p>Small-batch halal bone broth, slow-simmered and poured fresh in Manchester, United Kingdom.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#shop">This week's batch</a></li>
+          <li><a href="#benefits">Benefits</a></li>
+          <li><a href="#ritual">How it works</a></li>
+          <li><a href="#order">Ordering &amp; payment</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>KM Health</h4>
+        <ul>
+          <li><a href="#about">Our story</a></li>
+          <li><a href="https://instagram.com/kmbroth" target="_blank" rel="noopener">Instagram @kmbroth</a></li>
+          <li><a href="#top">Contact</a></li>
+          <li><a href="/owner" title="Owner login">Owner login</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap foot__bottom">
+      <span>© 2026 KM Health · Manchester, UK</span>
+      <span>Halal certified · Made by hand</span>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) { els.forEach(function(e){e.classList.add('in');}); return; }
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+      }, { threshold: .12 });
+      els.forEach(function(e){ io.observe(e); });
+    })();
+  </script>
+</body>
+</html>
