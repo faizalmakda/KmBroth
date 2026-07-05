@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>KM Health — Owner area</title>
+<style>
+  /* ============================================================
+     KM HEALTH — Owner area (design shell)
+     ============================================================ */
+  :root {
+    --ivory:#F6F1E7; --paper:#FCFAF4; --panel:#FFFFFF; --ink:#211D17; --taupe:#6E6455;
+    --line:#E4DCCC; --line-2:#D3C9B6; --gold:#A96F16; --gold-bright:#D8A43C; --sage:#5F7A55;
+    --good:#3F7A4E; --good-bg:#E7F0E5; --warn:#B07A16; --warn-bg:#F6ECD4;
+    --wait:#9A6B2E; --wait-bg:#F3E7D2; --info:#3F6486; --info-bg:#E4ECF3;
+    --shadow:0 1px 2px rgba(33,29,23,.05), 0 12px 30px -18px rgba(33,29,23,.25);
+    --serif:"Hoefler Text","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --maxw:1220px; --pad:clamp(1rem,3vw,2rem);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --ivory:#141109; --paper:#1D190F; --panel:#221D12; --ink:#F0E9DA; --taupe:#B4A992;
+      --line:#332C1D; --line-2:#40372440; --gold:#E0AE4E; --gold-bright:#F0C978; --sage:#A9C08D;
+      --good:#8FC79B; --good-bg:#1B2A1E; --warn:#E6BE63; --warn-bg:#2C2410; --wait:#E0AE4E; --wait-bg:#2C2410;
+      --info:#93B6D6; --info-bg:#16222E; --shadow:0 1px 2px rgba(0,0,0,.3),0 16px 40px -20px rgba(0,0,0,.7); }
+  }
+  :root[data-theme="light"]{ --ivory:#F6F1E7; --paper:#FCFAF4; --panel:#FFFFFF; --ink:#211D17; --taupe:#6E6455;
+    --line:#E4DCCC; --line-2:#D3C9B6; --gold:#A96F16; --sage:#5F7A55; --good:#3F7A4E; --good-bg:#E7F0E5;
+    --warn:#B07A16; --warn-bg:#F6ECD4; --wait:#9A6B2E; --wait-bg:#F3E7D2; --info:#3F6486; --info-bg:#E4ECF3; }
+  :root[data-theme="dark"]{ --ivory:#141109; --paper:#1D190F; --panel:#221D12; --ink:#F0E9DA; --taupe:#B4A992;
+    --line:#332C1D; --gold:#E0AE4E; --sage:#A9C08D; --good:#8FC79B; --good-bg:#1B2A1E; --warn:#E6BE63; --warn-bg:#2C2410;
+    --wait:#E0AE4E; --wait-bg:#2C2410; --info:#93B6D6; --info-bg:#16222E; }
+
+  *{box-sizing:border-box;}
+  body.kmo{ margin:0; background:var(--ivory); color:var(--ink); font-family:var(--sans); font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .kmo button{ font-family:inherit; cursor:pointer; }
+  .brand{ display:inline-flex; align-items:baseline; gap:.4rem; line-height:1; }
+  .brand__km{ font-family:var(--serif); font-size:1.15rem; letter-spacing:.05em; }
+  .brand__h{ font-family:var(--serif); font-size:.62rem; letter-spacing:.4em; text-transform:uppercase; color:var(--taupe); }
+
+  /* ---------- LOGIN ---------- */
+  .login{ min-height:100vh; display:grid; place-items:center; padding:var(--pad);
+    background:
+      radial-gradient(120% 80% at 80% -10%, color-mix(in srgb,var(--gold) 14%,transparent), transparent 60%),
+      var(--ivory); }
+  .login__card{ width:min(400px,100%); background:var(--panel); border:1px solid var(--line);
+    border-radius:8px; padding:2.4rem 2rem; box-shadow:var(--shadow); text-align:center; }
+  .login__mark{ width:76px; height:76px; border-radius:50%; background:var(--ivory); border:1px solid var(--line);
+    display:grid; place-content:center; margin:0 auto 1.3rem; }
+  .login__mark .brand__km{ font-size:1.3rem; } .login__mark .brand__h{ font-size:.5rem; }
+  .login h1{ font-family:var(--serif); font-weight:500; font-size:1.4rem; margin:.2rem 0 .3rem; }
+  .login p{ color:var(--taupe); font-size:.86rem; margin:0 0 1.6rem; }
+  .field{ text-align:left; margin-bottom:.9rem; }
+  .field label{ display:block; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--taupe); font-weight:600; margin-bottom:.35rem; }
+  .field input{ width:100%; font-family:var(--sans); font-size:.95rem; padding:.7rem .8rem; border:1px solid var(--line-2);
+    border-radius:5px; background:var(--ivory); color:var(--ink); }
+  .field input:focus-visible{ outline:2px solid var(--gold); outline-offset:1px; }
+  .btn{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; font-weight:600; font-size:.86rem;
+    padding:.7rem 1.1rem; border-radius:5px; border:1px solid var(--ink); background:var(--ink); color:var(--ivory); transition:transform .15s, opacity .2s; }
+  .btn:hover{ transform:translateY(-1px); } .btn--full{ width:100%; }
+  .btn--gold{ background:var(--gold); border-color:var(--gold); color:#fff; } @media (prefers-color-scheme:dark){ .btn--gold{ color:#241a08; } }
+  .btn--ghost{ background:transparent; color:var(--ink); border-color:var(--line-2); }
+  .btn--sm{ padding:.45rem .75rem; font-size:.78rem; border-radius:4px; }
+  .login__hint{ margin-top:1.1rem; font-size:.76rem; color:var(--taupe); }
+
+  /* ---------- APP SHELL ---------- */
+  .app{ display:none; min-height:100vh; }
+  .app.is-on{ display:block; }
+  .appbar{ position:sticky; top:0; z-index:20; background:color-mix(in srgb,var(--ivory) 88%,transparent);
+    backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  .appbar__in{ max-width:var(--maxw); margin-inline:auto; padding:.8rem var(--pad); display:flex; align-items:center; gap:1rem; }
+  .appbar__nav{ display:flex; gap:.3rem; margin-left:1rem; }
+  .appbar__nav a{ font-size:.82rem; color:var(--taupe); text-decoration:none; padding:.4rem .7rem; border-radius:5px; }
+  .appbar__nav a.on{ background:var(--panel); color:var(--ink); border:1px solid var(--line); }
+  @media (max-width:720px){ .appbar__nav{ display:none; } }
+  .appbar__right{ margin-left:auto; display:flex; align-items:center; gap:.7rem; }
+  .avatar{ width:30px; height:30px; border-radius:50%; background:var(--gold); color:#fff; display:grid; place-content:center; font-weight:700; font-size:.75rem; }
+  @media (prefers-color-scheme:dark){ .avatar{ color:#241a08; } }
+
+  .main{ max-width:var(--maxw); margin-inline:auto; padding:clamp(1.2rem,3vw,2rem) var(--pad) 4rem; }
+  .page-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:1.4rem; }
+  .page-head h1{ font-family:var(--serif); font-weight:500; font-size:1.7rem; margin:0; }
+  .page-head p{ margin:.2rem 0 0; color:var(--taupe); font-size:.9rem; }
+
+  /* week control */
+  .weekbar{ display:grid; grid-template-columns:1fr auto; gap:1.2rem; align-items:center;
+    background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:1.3rem 1.5rem; box-shadow:var(--shadow); margin-bottom:1.4rem; }
+  @media (max-width:640px){ .weekbar{ grid-template-columns:1fr; } }
+  .weekbar__label{ font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--taupe); font-weight:600; }
+  .weekbar h2{ font-family:var(--serif); font-weight:500; font-size:1.35rem; margin:.25rem 0 .15rem; }
+  .weekbar__meta{ font-size:.85rem; color:var(--taupe); }
+  .weekbar__meta b{ color:var(--ink); }
+  .weekstate{ display:flex; align-items:center; gap:1rem; }
+  .statebadge{ display:inline-flex; align-items:center; gap:.5rem; font-size:.78rem; font-weight:700; letter-spacing:.06em;
+    padding:.45rem .8rem; border-radius:999px; }
+  .statebadge .dot{ width:8px; height:8px; border-radius:50%; }
+  .statebadge.open{ color:var(--good); background:var(--good-bg); } .statebadge.open .dot{ background:var(--good); }
+  .statebadge.closed{ color:#b0402e; background:color-mix(in srgb,#b0402e 12%,transparent); } .statebadge.closed .dot{ background:#b0402e; }
+  @media (prefers-color-scheme:dark){ .statebadge.closed{ color:#e78c74; } }
+  /* toggle */
+  .toggle{ position:relative; width:58px; height:32px; border-radius:999px; border:1px solid var(--line-2); background:var(--good-bg); transition:background .2s; flex:none; }
+  .toggle::after{ content:""; position:absolute; top:3px; left:3px; width:24px; height:24px; border-radius:50%; background:var(--good); transition:transform .2s, background .2s; }
+  .toggle[aria-pressed="false"]{ background:color-mix(in srgb,#b0402e 12%,transparent); }
+  .toggle[aria-pressed="false"]::after{ transform:translateX(26px); background:#b0402e; }
+
+  /* stat tiles */
+  .tiles{ display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:1.4rem; }
+  @media (max-width:860px){ .tiles{ grid-template-columns:repeat(2,1fr); } }
+  .tile{ background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:1.1rem 1.2rem; box-shadow:var(--shadow); }
+  .tile__k{ font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--taupe); font-weight:600; display:flex; align-items:center; gap:.4rem; }
+  .tile__v{ font-family:var(--serif); font-size:2rem; margin-top:.35rem; font-variant-numeric:tabular-nums; }
+  .tile__sub{ font-size:.78rem; color:var(--taupe); margin-top:.15rem; }
+  .tile .swatch{ width:8px; height:8px; border-radius:2px; }
+
+  /* orders table */
+  .panel{ background:var(--panel); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); overflow:hidden; }
+  .panel__head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 1.3rem; border-bottom:1px solid var(--line); }
+  .panel__head h3{ font-family:var(--serif); font-weight:500; font-size:1.15rem; margin:0; }
+  .filters{ display:flex; gap:.4rem; }
+  .chip{ font-size:.76rem; padding:.35rem .7rem; border-radius:999px; border:1px solid var(--line-2); background:transparent; color:var(--taupe); }
+  .chip.on{ background:var(--ink); color:var(--ivory); border-color:var(--ink); }
+  .tablewrap{ overflow-x:auto; }
+  table{ width:100%; border-collapse:collapse; font-size:.88rem; min-width:720px; }
+  thead th{ text-align:left; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--taupe); font-weight:600; padding:.8rem 1.3rem; border-bottom:1px solid var(--line); }
+  tbody td{ padding:.85rem 1.3rem; border-bottom:1px solid var(--line); vertical-align:middle; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr:hover{ background:color-mix(in srgb,var(--gold) 5%,transparent); }
+  .ref{ font-family:var(--serif); letter-spacing:.06em; color:var(--gold); font-weight:500; }
+  .cust b{ display:block; } .cust span{ font-size:.78rem; color:var(--taupe); }
+  .num{ font-variant-numeric:tabular-nums; }
+  .status{ display:inline-flex; align-items:center; gap:.45rem; font-size:.74rem; font-weight:700; padding:.3rem .6rem; border-radius:999px; white-space:nowrap; }
+  .status .dot{ width:7px; height:7px; border-radius:50%; }
+  .status.paid{ color:var(--good); background:var(--good-bg); } .status.paid .dot{ background:var(--good); }
+  .status.wait{ color:var(--wait); background:var(--wait-bg); } .status.wait .dot{ background:var(--wait); }
+  .status.ship{ color:var(--info); background:var(--info-bg); } .status.ship .dot{ background:var(--info); }
+  .rowbtn{ font-size:.76rem; padding:.4rem .7rem; border-radius:5px; border:1px solid var(--line-2); background:transparent; color:var(--ink); }
+  .rowbtn:hover{ border-color:var(--ink); }
+  .rowbtn.gold{ background:var(--gold); border-color:var(--gold); color:#fff; }
+  @media (prefers-color-scheme:dark){ .rowbtn.gold{ color:#241a08; } }
+  .muted{ color:var(--taupe); }
+  .pay-src{ font-size:.72rem; color:var(--taupe); display:flex; align-items:center; gap:.35rem; margin-top:.15rem; }
+
+  .note{ margin-top:1.4rem; font-size:.8rem; color:var(--taupe); text-align:center; }
+</style>
+
+<body class="kmo">
+  <!-- ================= LOGIN ================= -->
+  <div class="login" id="login">
+    <div class="login__card">
+      <div class="login__mark"><div class="brand"><span class="brand__km" style="flex-direction:column"><span style="display:block">KM</span><span class="brand__h" style="display:block;margin-top:2px">Health</span></span></div></div>
+      <h1>Owner sign in</h1>
+      <p>The KM Health kitchen dashboard</p>
+      <form onsubmit="enterApp(); return false;">
+        <div class="field"><label for="em">Email</label><input id="em" type="email" value="hello@kmhealth.co.uk" /></div>
+        <div class="field"><label for="pw">Password</label><input id="pw" type="password" value="••••••••••" /></div>
+        <button class="btn btn--gold btn--full" type="submit">Sign in</button>
+      </form>
+      <p class="login__hint">Private area · protected. Demo shell — click Sign in.</p>
+    </div>
+  </div>
+
+  <!-- ================= APP ================= -->
+  <div class="app" id="app">
+    <div class="appbar">
+      <div class="appbar__in">
+        <span class="brand"><span class="brand__km">KM</span><span class="brand__h">Health</span></span>
+        <nav class="appbar__nav">
+          <a href="#" class="on">Orders</a>
+          <a href="#">Weeks</a>
+          <a href="#">Products</a>
+          <a href="#">Payouts</a>
+        </nav>
+        <div class="appbar__right">
+          <button class="btn btn--ghost btn--sm" onclick="signOut()">Sign out</button>
+          <div class="avatar">KM</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="page-head">
+        <div>
+          <h1>This week</h1>
+          <p>Batch of Mon 6 – Fri 10 Jul · brews Sat 11 · ships Mon 13</p>
+        </div>
+        <button class="btn btn--ghost btn--sm">Export orders (CSV)</button>
+      </div>
+
+      <!-- WEEK OPEN/CLOSED CONTROL -->
+      <div class="weekbar">
+        <div>
+          <div class="weekbar__label">Ordering status</div>
+          <h2 id="weekTitle">Orders are open</h2>
+          <div class="weekbar__meta" id="weekMeta">Customers can order this week's batch until <b>Fri 10 Jul, 8pm</b>.</div>
+        </div>
+        <div class="weekstate">
+          <span class="statebadge open" id="weekBadge"><span class="dot"></span> OPEN</span>
+          <button class="toggle" id="weekToggle" aria-pressed="true" aria-label="Toggle ordering open or sold out" onclick="toggleWeek()"></button>
+        </div>
+      </div>
+
+      <!-- STAT TILES -->
+      <div class="tiles">
+        <div class="tile">
+          <div class="tile__k">Orders this week</div>
+          <div class="tile__v">18</div>
+          <div class="tile__sub">+4 since yesterday</div>
+        </div>
+        <div class="tile">
+          <div class="tile__k"><span class="swatch" style="background:var(--wait)"></span> Awaiting payment</div>
+          <div class="tile__v">3</div>
+          <div class="tile__sub">£112.00 outstanding</div>
+        </div>
+        <div class="tile">
+          <div class="tile__k"><span class="swatch" style="background:var(--good)"></span> Paid</div>
+          <div class="tile__v">15</div>
+          <div class="tile__sub">£486.00 received</div>
+        </div>
+        <div class="tile">
+          <div class="tile__k"><span class="swatch" style="background:var(--info)"></span> Jars to make</div>
+          <div class="tile__v">61</div>
+          <div class="tile__sub">for Saturday's brew</div>
+        </div>
+      </div>
+
+      <!-- ORDERS -->
+      <div class="panel">
+        <div class="panel__head">
+          <h3>Orders</h3>
+          <div class="filters">
+            <button class="chip on">All</button>
+            <button class="chip">Awaiting</button>
+            <button class="chip">Paid</button>
+            <button class="chip">To ship</button>
+          </div>
+        </div>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr><th>Ref</th><th>Customer</th><th>Items</th><th class="num">Total</th><th>Payment</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="ref">KM-4821</span></td>
+                <td class="cust"><b>Aisha R.</b><span>Didsbury, M20</span></td>
+                <td>Weekly Bundle ×1, Original ×1</td>
+                <td class="num">£41.00</td>
+                <td><div class="pay-src">⛃ Pay by Bank</div></td>
+                <td><span class="status wait"><span class="dot"></span>Awaiting</span></td>
+                <td><button class="rowbtn gold">Mark received</button></td>
+              </tr>
+              <tr>
+                <td><span class="ref">KM-4820</span></td>
+                <td class="cust"><b>Yusuf K.</b><span>Cheadle, SK8</span></td>
+                <td>Original ×3</td>
+                <td class="num">£27.00</td>
+                <td><div class="pay-src">⛃ Pay by Bank · auto</div></td>
+                <td><span class="status paid"><span class="dot"></span>Paid</span></td>
+                <td><button class="rowbtn">View</button></td>
+              </tr>
+              <tr>
+                <td><span class="ref">KM-4819</span></td>
+                <td class="cust"><b>Hannah J.</b><span>Chorlton, M21</span></td>
+                <td>Weekly Bundle ×2</td>
+                <td class="num">£64.00</td>
+                <td><div class="pay-src">↔ Manual transfer</div></td>
+                <td><span class="status wait"><span class="dot"></span>Awaiting</span></td>
+                <td><button class="rowbtn gold">Mark received</button></td>
+              </tr>
+              <tr>
+                <td><span class="ref">KM-4818</span></td>
+                <td class="cust"><b>Raeesah M.</b><span>Rusholme, M14</span></td>
+                <td>Original ×2</td>
+                <td class="num">£18.00</td>
+                <td><div class="pay-src">⛃ Pay by Bank · auto</div></td>
+                <td><span class="status ship"><span class="dot"></span>Ready to ship</span></td>
+                <td><button class="rowbtn">Print label</button></td>
+              </tr>
+              <tr>
+                <td><span class="ref">KM-4817</span></td>
+                <td class="cust"><b>Sana T.</b><span>Levenshulme, M19</span></td>
+                <td>Weekly Bundle ×1</td>
+                <td class="num">£32.00</td>
+                <td><div class="pay-src">⛃ Pay by Bank · auto</div></td>
+                <td><span class="status paid"><span class="dot"></span>Paid</span></td>
+                <td><button class="rowbtn">View</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <p class="note">Shell preview · numbers and orders are sample data. Buttons demonstrate the flow only.</p>
+    </div>
+  </div>
+
+  <script>
+    function enterApp(){ document.getElementById('login').style.display='none'; document.getElementById('app').classList.add('is-on'); window.scrollTo(0,0); }
+    function signOut(){ document.getElementById('app').classList.remove('is-on'); document.getElementById('login').style.display='grid'; }
+    function toggleWeek(){
+      var t=document.getElementById('weekToggle');
+      var open = t.getAttribute('aria-pressed')==='true';
+      var next = !open;
+      t.setAttribute('aria-pressed', String(next));
+      var badge=document.getElementById('weekBadge');
+      var title=document.getElementById('weekTitle');
+      var meta=document.getElementById('weekMeta');
+      if(next){ badge.className='statebadge open'; badge.innerHTML='<span class="dot"></span> OPEN';
+        title.textContent='Orders are open';
+        meta.innerHTML="Customers can order this week's batch until <b>Fri 10 Jul, 8pm</b>."; }
+      else{ badge.className='statebadge closed'; badge.innerHTML='<span class="dot"></span> SOLD OUT';
+        title.textContent='This week is sold out';
+        meta.innerHTML="The shop now shows <b>Sold out this week</b> to customers. Flip back on to reopen ordering."; }
+    }
+  </script>
+</body>
+</html>
