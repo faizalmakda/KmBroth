@@ -118,6 +118,20 @@
   .rowbtn.gold{ background:var(--broth); border-color:var(--broth); color:#fff; }
   .pay-src{ font-size:.74rem; color:var(--muted); display:flex; align-items:center; gap:.35rem; }
   .note{ margin-top:1.4rem; font-size:.8rem; color:var(--muted); text-align:center; }
+
+  /* orders → stacked cards on mobile */
+  @media (max-width:720px){
+    table{ min-width:0; }
+    thead{ display:none; }
+    tbody tr{ display:block; padding:.9rem 1.15rem; }
+    tbody tr:hover{ background:transparent; }
+    tbody td{ display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:.32rem 0; border:none; }
+    tbody td::before{ content:attr(data-label); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:600; flex:none; }
+    tbody td.cust{ align-items:flex-start; }
+    tbody td:last-child{ padding-top:.6rem; }
+    tbody td:last-child::before{ display:none; }
+    .rowbtn{ width:100%; text-align:center; padding:.6rem; }
+  }
 </style>
 </head>
 <body>
@@ -258,6 +272,14 @@
       else{ badge.className='statebadge closed'; badge.innerHTML='<span class="dot"></span> SOLD OUT'; title.textContent='This week is sold out';
         meta.innerHTML="The shop now shows <b>Sold out this week</b> to customers. Flip back on to reopen ordering."; }
     }
+    /* label order cells for the mobile stacked-card view */
+    (function(){
+      var table=document.querySelector('table'); if(!table) return;
+      var heads=[].map.call(table.querySelectorAll('thead th'), function(th){ return th.textContent.trim(); });
+      [].forEach.call(table.querySelectorAll('tbody tr'), function(tr){
+        [].forEach.call(tr.children, function(td,i){ if(heads[i]) td.setAttribute('data-label', heads[i]); });
+      });
+    })();
   </script>
 </body>
 </html>
