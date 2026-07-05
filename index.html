@@ -120,6 +120,23 @@
   .steam path:nth-child(2){ animation-delay:1.6s; } .steam path:nth-child(3){ animation-delay:3.1s; }
   @media (prefers-reduced-motion:reduce){ .steam path{ animation:none; } }
 
+  /* ---- hero photo carousel ---- */
+  .photo{ position:relative; width:min(100%,460px); aspect-ratio:1; margin-inline:auto; }
+  .photo__ring2{ position:absolute; inset:-30px; border-radius:50%; border:1px solid var(--line-2); }
+  .photo__ring{ position:absolute; inset:-13px; border-radius:50%; border:2px solid color-mix(in srgb,var(--broth) 45%,transparent); opacity:.6; }
+  .photo__circle{ position:absolute; inset:0; border-radius:50%; overflow:hidden; background:var(--paper); box-shadow:var(--shadow); }
+  .pslide{ position:absolute; inset:0; background-size:cover; background-position:center; opacity:0; transition:opacity 1s ease; }
+  .pslide.is-on{ opacity:1; }
+  @media (prefers-reduced-motion:reduce){ .pslide{ transition:none; } }
+  .photo__seal{ position:absolute; right:5%; bottom:5%; width:86px; height:86px; border-radius:50%;
+    background:color-mix(in srgb,var(--bone) 90%, transparent); backdrop-filter:blur(3px); border:1px solid var(--line-2);
+    display:grid; place-content:center; text-align:center; box-shadow:var(--shadow); }
+  .photo__seal .km{ font-family:var(--serif); font-size:1.15rem; color:var(--ink); line-height:1; }
+  .photo__seal .h{ display:block; font-family:var(--serif); font-size:.44rem; letter-spacing:.32em; text-transform:uppercase; color:var(--muted); margin-top:3px; }
+  .pdots{ position:absolute; left:50%; bottom:-34px; transform:translateX(-50%); display:flex; gap:.5rem; }
+  .pdot{ width:8px; height:8px; border-radius:100px; border:none; background:var(--line-2); cursor:pointer; padding:0; transition:background .25s, width .25s; }
+  .pdot.is-on{ background:var(--broth); width:22px; }
+
   /* ---- wave divider ---- */
   .wave{ display:block; width:100%; height:34px; color:var(--line); }
   .wave path{ fill:none; stroke:currentColor; stroke-width:1.5; }
@@ -335,16 +352,19 @@
           </div>
         </div>
         <div class="reveal">
-          <div class="jarwrap" role="img" aria-label="A fresh jar of golden KM Health bone broth, seen from above">
-            <svg class="steam" viewBox="0 0 120 80" aria-hidden="true">
-              <path d="M40 78 C30 60 52 52 42 34 C34 20 50 12 44 2"/>
-              <path d="M62 78 C54 58 74 50 64 32 C58 18 72 12 66 4"/>
-              <path d="M84 78 C76 62 94 54 84 36 C78 22 90 16 84 6"/>
-            </svg>
-            <div class="jar__rim2"></div><div class="jar__rim"></div>
-            <div class="jar"></div><div class="jar__gloss"></div>
-            <span class="bub a"></span><span class="bub b"></span><span class="bub c"></span><span class="bub d"></span><span class="bub e"></span>
-            <div class="jar__mark"><div><div class="km">KM</div><div class="h">Health</div><div class="rule"></div></div></div>
+          <div class="photo" aria-label="Jars of KM Health golden bone broth">
+            <div class="photo__ring2"></div><div class="photo__ring"></div>
+            <div class="photo__circle">
+              <div class="pslide is-on" style="background-image:url('images/hero-jar.jpg')" role="img" aria-label="A hand holding a jar of golden bone broth"></div>
+              <div class="pslide" style="background-image:url('images/hero-tray.jpg')" role="img" aria-label="An overhead tray of freshly poured broth jars"></div>
+              <div class="pslide" style="background-image:url('images/hero-spoon.jpg')" role="img" aria-label="A spoonful of set golden broth"></div>
+            </div>
+            <div class="photo__seal"><span class="km">KM</span><span class="h">Health</span></div>
+            <div class="pdots" aria-label="Choose photo">
+              <button class="pdot is-on" aria-label="Photo 1" onclick="goSlide(0)"></button>
+              <button class="pdot" aria-label="Photo 2" onclick="goSlide(1)"></button>
+              <button class="pdot" aria-label="Photo 3" onclick="goSlide(2)"></button>
+            </div>
           </div>
         </div>
       </div>
@@ -610,8 +630,22 @@
     els.forEach(e=>io.observe(e));
   }
 
+  /* ---------- hero photo carousel ---------- */
+  let slideI = 0, slideT = null;
+  const slideN = () => document.querySelectorAll('.pslide').length;
+  function renderSlides(){
+    document.querySelectorAll('.pslide').forEach((s,i)=>s.classList.toggle('is-on', i===slideI));
+    document.querySelectorAll('.pdot').forEach((d,i)=>d.classList.toggle('is-on', i===slideI));
+  }
+  function goSlide(i){ slideI=i; renderSlides(); startSlides(); }
+  function startSlides(){
+    clearInterval(slideT);
+    if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    slideT = setInterval(()=>{ slideI=(slideI+1)%slideN(); renderSlides(); }, 3800);
+  }
+
   document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeCart(); });
-  renderShop(); renderDrawer(); paintDrops(); initReveal(); updateBadge();
+  renderShop(); renderDrawer(); paintDrops(); initReveal(); updateBadge(); startSlides();
   </script>
 </body>
 </html>
