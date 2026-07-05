@@ -160,7 +160,7 @@
 
   /* ---- benefits: sticky lead + list ---- */
   .benefits{ display:grid; grid-template-columns:.9fr 1.1fr; gap:clamp(2rem,5vw,4rem); align-items:start; }
-  @media (max-width:860px){ .benefits{ grid-template-columns:1fr; } }
+  @media (max-width:860px){ .benefits{ grid-template-columns:1fr; } .benefits__lead{ position:static; } }
   .benefits__lead{ position:sticky; top:100px; }
   .benefits__lead .big{ font-family:var(--serif); font-size:clamp(1.6rem,3vw,2.2rem); line-height:1.12; margin-top:.8rem; }
   .benefits__lead p{ color:var(--muted); margin-top:1rem; max-width:34ch; }
